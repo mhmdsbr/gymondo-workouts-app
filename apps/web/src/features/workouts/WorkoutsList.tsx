@@ -33,7 +33,7 @@ export default function WorkoutsList() {
 
   const loadWorkouts = async () => {
     try {
-      const response = await fetch('/data/workouts.json');
+      const response = await fetch('http://localhost:3000/api/workouts');
       if (!response.ok) throw new Error('Failed to load workouts');
       const data: WorkoutsApiResponse = await response.json();
       setWorkouts(data.workouts);

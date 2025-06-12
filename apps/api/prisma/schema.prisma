@@ -1,0 +1,28 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Workout {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  startDate   DateTime @map("start_date")
+  duration    Int      // in minutes
+  difficulty  String
+  category    String
+  exercises   String[] // Array of exercise names
+  equipment   String[] // Array of equipment names
+  calories    Int
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("workouts")
+}

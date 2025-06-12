@@ -11,7 +11,11 @@
     "test": "turbo run test",
     "test:e2e": "turbo run test:e2e",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "db:up": "cd apps/api && npm run db:up",
+    "db:down": "cd apps/api && npm run db:down",
+    "db:setup": "cd apps/api && npm run db:generate && npm run db:push && npm run db:seed",
+    "db:studio": "cd apps/api && npm run db:studio"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",
