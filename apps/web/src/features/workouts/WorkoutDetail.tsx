@@ -77,8 +77,8 @@ export default function WorkoutDetail({ slug }: WorkoutDetailProps) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div>
-            <h2 className="text-lg font-semibold mb-2">Details</h2>
-            <div className="space-y-2">
+            <h2 className="text-lg text-black font-semibold mb-2">Details</h2>
+            <div className="space-y-2 text-gray-700">
               <p>
                 <span className="font-medium">Start Date:</span>{' '}
                 {dayjs(workout.startDate).format('MMMM D, YYYY')}
@@ -95,15 +95,15 @@ export default function WorkoutDetail({ slug }: WorkoutDetailProps) {
           </div>
 
           <div>
-            <h2 className="text-lg font-semibold mb-2">Description</h2>
+            <h2 className="text-lg text-black font-semibold mb-2">Description</h2>
             <p className="text-gray-700">{workout.description}</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h2 className="text-lg font-semibold mb-2">Exercises</h2>
-            <ul className="list-disc pl-5 space-y-1">
+            <h2 className="text-lg text-black font-semibold mb-2">Exercises</h2>
+            <ul className="list-disc text-gray-700 pl-5 space-y-1">
               {workout.exercises.map((exercise, index) => (
                 <li key={index}>{exercise}</li>
               ))}
@@ -111,8 +111,8 @@ export default function WorkoutDetail({ slug }: WorkoutDetailProps) {
           </div>
 
           <div>
-            <h2 className="text-lg font-semibold mb-2">Required Equipment</h2>
-            <ul className="list-disc pl-5 space-y-1">
+            <h2 className="text-lg text-black font-semibold mb-2">Required Equipment</h2>
+            <ul className="list-disc text-gray-700 pl-5 space-y-1">
               {workout.equipment.map((item, index) => (
                 <li key={index}>{item}</li>
               ))}
