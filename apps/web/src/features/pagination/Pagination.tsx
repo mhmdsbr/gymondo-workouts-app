@@ -33,7 +33,7 @@ export default function Pagination({
         >
           Previous
         </button>
-        
+
         <div className="flex gap-1">
           {[...Array(totalPages)].map((_, index) => {
             const page = index + 1

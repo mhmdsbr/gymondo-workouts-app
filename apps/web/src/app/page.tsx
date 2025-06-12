@@ -1,5 +1,5 @@
-import Header from '../components/Header'
-import WorkoutsList from '../components/WorkoutsList'
+import Header from '../shared/Header'
+import WorkoutsList from '../features/workouts/WorkoutsList'
 
 const RootPage = () => {
   return (

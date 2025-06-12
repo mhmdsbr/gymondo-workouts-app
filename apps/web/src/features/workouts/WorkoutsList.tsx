@@ -2,9 +2,9 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import WorkoutCard from './WorkOutCard'
-import Pagination from './Pagination'
-import LoadingSkeleton from './LoadingSkeleton'
-import ErrorMessage from './ErrorMessage'
+import Pagination from '../pagination/Pagination'
+import LoadingSkeleton from '../../shared/LoadingSkeleton'
+import ErrorMessage from '../../shared/ErrorMessage'
 import dayjs from 'dayjs'
 
 type Workout = {
