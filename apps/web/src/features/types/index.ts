@@ -13,22 +13,27 @@ export type Workout = {
   calories: number
 }
 
-// Props interfaces
 export interface WorkoutCardProps {
   workout: Workout
+}
+
+export interface WorkoutFiltersProps {
+  selectedMonth: string
+  setSelectedMonth: (month: string) => void
+  selectedCategories: string[]
+  allCategories: string[]
+  handleCategoryChange: (category: string) => void
 }
 
 export interface WorkoutDetailProps {
   slug: string
 }
 
-// Filter types
 export interface WorkoutFilters {
   selectedMonth: string
   selectedCategories: string[]
 }
 
-// API response types
 export interface WorkoutsApiResponse {
   workouts: Workout[]
 }

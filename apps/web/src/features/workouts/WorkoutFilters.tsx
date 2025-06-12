@@ -2,13 +2,7 @@
 
 import { useMonthGenerator } from '../hooks'
 
-interface WorkoutFiltersProps {
-  selectedMonth: string
-  setSelectedMonth: (month: string) => void
-  selectedCategories: string[]
-  allCategories: string[]
-  handleCategoryChange: (category: string) => void
-}
+import { WorkoutFiltersProps } from '../types';
 
 export default function WorkoutFilters({
   selectedMonth,
@@ -30,7 +24,7 @@ export default function WorkoutFilters({
             id="month-filter"
             value={selectedMonth}
             onChange={(e) => setSelectedMonth(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+            className="w-full p-2 border text-black border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="">All Months</option>
             {months.map((month) => (
