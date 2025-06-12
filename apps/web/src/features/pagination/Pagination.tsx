@@ -55,7 +55,7 @@ export default function Pagination({
             )
           })}
         </div>
-        
+
         <button
           onClick={handleNext}
           disabled={currentPage === totalPages}
@@ -64,7 +64,7 @@ export default function Pagination({
           Next
         </button>
       </div>
-      
+
       <div className="text-sm text-gray-600">
         Page {currentPage} of {totalPages}
       </div>
