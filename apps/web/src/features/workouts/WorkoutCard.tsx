@@ -32,7 +32,7 @@ export default function WorkoutCard({ workout }: WorkoutCardProps) {
   return (
     <div
       onClick={handleClick}
-      className="p-6 border border-gray-200 rounded-xl shadow-sm bg-white hover:shadow-md transition-shadow cursor-pointer"
+      className="p-6 border border-gray-200 rounded-xl shadow-sm bg-white hover:scale-[1.02] hover:shadow-md transition-all cursor-pointer"
     >
       <div className="flex justify-between items-start mb-3">
         <div>
