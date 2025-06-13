@@ -3,7 +3,9 @@
 import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import Link from 'next/link'
-import type { Workout, WorkoutDetailProps, WorkoutsApiResponse } from '../types'
+import { findWorkoutBySlug } from '../../services/workoutService'
+import { Workout, WorkoutDetailProps } from '../types'
+
 
 export default function WorkoutDetail({ slug }: WorkoutDetailProps) {
   const [workout, setWorkout] = useState<Workout | null>(null)
@@ -13,19 +15,10 @@ export default function WorkoutDetail({ slug }: WorkoutDetailProps) {
   useEffect(() => {
     const fetchWorkout = async () => {
       try {
-        const response = await fetch('/data/workouts.json')
-        if (!response.ok) throw new Error('Failed to load workouts')
-        const data: WorkoutsApiResponse = await response.json()
-
-        const foundWorkout = data.workouts.find((w: Workout) => {
-          const workoutSlug = w.name
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, '-')
-            .replace(/(^-|-$)/g, '')
-          return workoutSlug === slug
-        })
-
-        if (!foundWorkout) throw new Error('Workout not found')
+        const foundWorkout = await findWorkoutBySlug(slug);
+        if (!foundWorkout) {
+          throw new Error('Workout not found')
+        }
         setWorkout(foundWorkout)
       } catch (err) {
         console.error('Error loading workout:', err)

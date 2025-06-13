@@ -6,37 +6,34 @@ import WorkoutFilters from './WorkoutFilters';
 import Pagination from '../pagination/Pagination';
 import LoadingSkeleton from '../../shared/LoadingSkeleton';
 import ErrorMessage from '../../shared/ErrorMessage';
-import { useWorkoutFilters, usePagination } from '../hooks';
-import type { Workout, WorkoutsApiResponse } from '../types';
+import { fetchWorkouts, fetchWorkoutCategories } from '../../services/workoutService';
+import { Workout } from '../types';
 
 export default function WorkoutsList() {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const {
-    selectedMonth,
-    setSelectedMonth,
-    selectedCategories,
-    allCategories,
-    filteredWorkouts,
-    handleCategoryChange,
-  } = useWorkoutFilters(workouts);
-
-  const {
-    currentPage,
-    setCurrentPage,
-    totalPages,
-    paginatedItems: currentWorkouts,
-    paginationInfo,
-  } = usePagination(filteredWorkouts, 10);
+  // Filter states
+  const [selectedMonth, setSelectedMonth] = useState('');
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [allCategories, setAllCategories] = useState<string[]>([]);
 
   const loadWorkouts = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/workouts');
-      if (!response.ok) throw new Error('Failed to load workouts');
-      const data: WorkoutsApiResponse = await response.json();
+      setLoading(true);
+      const data = await fetchWorkouts(
+        currentPage,
+        20,
+        selectedMonth,
+        selectedCategories
+      );
       setWorkouts(data.workouts);
+      setTotalPages(data.pagination.totalPages);
+      setTotalItems(data.pagination.total);
     } catch (err) {
       console.error('Error loading workouts:', err);
       setError('Failed to load workouts. Please try again later.');
@@ -45,24 +42,59 @@ export default function WorkoutsList() {
     }
   };
 
+  const loadCategories = async () => {
+    try {
+      const categories = await fetchWorkoutCategories();
+      setAllCategories(categories);
+    } catch (err) {
+      console.error('Error loading categories:', err);
+    }
+  };
+
   useEffect(() => {
     loadWorkouts();
+  }, [currentPage, selectedMonth, selectedCategories]);
+
+  useEffect(() => {
+    loadCategories();
   }, []);
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategories(prev =>
+      prev.includes(category)
+        ? prev.filter(c => c !== category)
+        : [...prev, category]
+    );
+    setCurrentPage(1);
+  };
+
+  const handleMonthChange = (month: string) => {
+    setSelectedMonth(month);
+    setCurrentPage(1);
+  };
+
 
   const handleRetry = () => {
     setError(null);
-    setLoading(true);
     loadWorkouts();
   };
 
-  if (loading) return <LoadingSkeleton />;
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  // Calculate pagination info for display
+  const startIndex = (currentPage - 1) * 10 + 1;
+  const endIndex = Math.min(currentPage * 10, totalItems);
+
+  if (loading && workouts.length === 0) return <LoadingSkeleton />;
   if (error) return <ErrorMessage error={error} onRetry={handleRetry} />;
 
   return (
     <section className="p-6 container mx-auto">
       <WorkoutFilters
         selectedMonth={selectedMonth}
-        setSelectedMonth={setSelectedMonth}
+        setSelectedMonth={handleMonthChange}
         selectedCategories={selectedCategories}
         allCategories={allCategories}
         handleCategoryChange={handleCategoryChange}
@@ -71,15 +103,22 @@ export default function WorkoutsList() {
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-900">Workout Programs</h2>
         <div className="text-sm text-gray-600">
-          Showing {paginationInfo.startIndex}-{paginationInfo.endIndex} of{' '}
-          {paginationInfo.totalItems} workouts
+          {totalItems > 0 ? (
+            <>Showing {startIndex}-{endIndex} of {totalItems} workouts</>
+          ) : (
+            'No workouts found'
+          )}
         </div>
       </div>
 
       <div className="mb-8">
-        {currentWorkouts.length > 0 ? (
+        {loading ? (
+          <div className="text-center py-4">
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          </div>
+        ) : workouts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {currentWorkouts.map((workout) => (
+            {workouts.map((workout) => (
               <WorkoutCard key={workout.id} workout={workout} />
             ))}
           </div>
@@ -90,11 +129,11 @@ export default function WorkoutsList() {
         )}
       </div>
 
-      {filteredWorkouts.length > 10 && (
+      {totalPages > 1 && (
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
-          onPageChange={setCurrentPage}
+          onPageChange={handlePageChange}
         />
       )}
     </section>

@@ -2,13 +2,13 @@
 
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
-import type { WorkoutCardProps, WorkoutDifficulty } from '../types';
+import type { WorkoutCardProps } from '../types';
 
 export default function WorkoutCard({ workout }: WorkoutCardProps) {
   const router = useRouter();
 
-  const getDifficultyBadgeColor = (difficulty: WorkoutDifficulty) => {
-    const normalizedDifficulty = difficulty.toLowerCase() as WorkoutDifficulty;
+  const getDifficultyBadgeColor = (difficulty: string) => {
+    const normalizedDifficulty = difficulty.toLowerCase();
     switch (normalizedDifficulty) {
       case 'beginner':
         return 'bg-green-100 text-green-800';

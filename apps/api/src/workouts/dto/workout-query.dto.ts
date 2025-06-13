@@ -1,4 +1,4 @@
-import { IsOptional, IsString, IsArray, IsDateString } from 'class-validator';
+import { IsOptional, IsString, IsArray } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class WorkoutQueryDto {
@@ -18,14 +18,6 @@ export class WorkoutQueryDto {
   @IsOptional()
   @IsString()
   month?: string;
-
-  @IsOptional()
-  @IsDateString()
-  startDate?: string;
-
-  @IsOptional()
-  @IsString()
-  search?: string;
 
   @IsOptional()
   @Transform(({ value }) => parseInt(value))

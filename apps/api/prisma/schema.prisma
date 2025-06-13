@@ -21,8 +21,6 @@ model Workout {
   exercises   String[] // Array of exercise names
   equipment   String[] // Array of equipment names
   calories    Int
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
 
   @@map("workouts")
 }

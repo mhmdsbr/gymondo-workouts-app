@@ -1,98 +1,126 @@
 import { PrismaClient } from '@prisma/client';
+import { faker } from '@faker-js/faker';
 
 const prisma = new PrismaClient();
 
-const workoutData = [
-  {
-    name: "Full Body Blast",
-    description: "A high-intensity full body circuit workout combining strength training and cardio elements. Perfect for burning calories and building lean muscle mass.",
-    startDate: new Date("2025-06-10"),
-    duration: 45,
-    difficulty: "Intermediate",
-    category: "Full Body",
-    exercises: ["Burpees", "Push-ups", "Squats", "Mountain Climbers"],
-    equipment: ["None"],
-    calories: 400
-  },
-  {
-    name: "Core Strength Builder",
-    description: "Focuses on abdominal and lower back muscles to improve posture and stability. Great for developing a strong foundation for all other exercises.",
-    startDate: new Date("2025-06-12"),
-    duration: 30,
-    difficulty: "Beginner",
-    category: "Core",
-    exercises: ["Plank", "Russian Twists", "Dead Bug", "Bird Dog"],
-    equipment: ["Yoga Mat"],
-    calories: 200
-  },
-  {
-    name: "Upper Body Pump",
-    description: "Targets chest, shoulders, and arms with progressive overload techniques. Build impressive upper body strength and definition.",
-    startDate: new Date("2025-06-14"),
-    duration: 50,
-    difficulty: "Advanced",
-    category: "Upper Body",
-    exercises: ["Bench Press", "Pull-ups", "Shoulder Press", "Dips"],
-    equipment: ["Dumbbells", "Pull-up Bar"],
-    calories: 350
-  },
-  {
-    name: "HIIT Cardio Crusher",
-    description: "High-intensity interval training designed to maximize fat burn and improve cardiovascular endurance in minimal time.",
-    startDate: new Date("2025-06-16"),
-    duration: 25,
-    difficulty: "Advanced",
-    category: "Cardio",
-    exercises: ["Jump Squats", "High Knees", "Burpee Tuck Jumps", "Sprint Intervals"],
-    equipment: ["None"],
-    calories: 300
-  },
-  {
-    name: "Lower Body Power",
-    description: "Comprehensive leg workout focusing on glutes, quads, hamstrings, and calves. Build explosive power and strength in your lower body.",
-    startDate: new Date("2025-06-18"),
-    duration: 55,
-    difficulty: "Intermediate",
-    category: "Lower Body",
-    exercises: ["Squats", "Deadlifts", "Lunges", "Calf Raises"],
-    equipment: ["Barbell", "Dumbbells"],
-    calories: 450
-  },
-  {
-    name: "Yoga Flow Morning",
-    description: "Gentle morning yoga sequence to wake up your body and mind. Perfect for improving flexibility and starting your day with mindfulness.",
-    startDate: new Date("2025-06-20"),
-    duration: 40,
-    difficulty: "Beginner",
-    category: "Flexibility",
-    exercises: ["Sun Salutation", "Warrior Poses", "Downward Dog", "Child's Pose"],
-    equipment: ["Yoga Mat"],
-    calories: 150
-  }
+const CATEGORIES = [
+  "Full Body", "Core", "Upper Body", "Lower Body",
+  "Cardio", "Flexibility", "Strength", "Endurance"
 ];
 
+const DIFFICULTIES = ["Beginner", "Intermediate", "Advanced"];
+
+const ALL_EXERCISES = [
+  "Burpees", "Push-ups", "Squats", "Mountain Climbers",
+  "Plank", "Russian Twists", "Dead Bug", "Bird Dog",
+  "Bench Press", "Pull-ups", "Shoulder Press", "Dips",
+  "Jump Squats", "High Knees", "Burpee Tuck Jumps", "Sprint Intervals",
+  "Deadlifts", "Lunges", "Calf Raises", "Sun Salutation",
+  "Warrior Poses", "Downward Dog", "Child's Pose"
+];
+
+const ALL_EQUIPMENT = [
+  "None", "Yoga Mat", "Dumbbells", "Pull-up Bar",
+  "Barbell", "Kettlebells", "Resistance Bands"
+];
+
+function generateWorkout() {
+
+  const description = faker.lorem.paragraphs(3);
+
+  const exerciseCount = faker.number.int({ min: 5, max: 8 });
+  const exercises = Array.from({ length: exerciseCount }, () =>
+    faker.helpers.arrayElement(ALL_EXERCISES)
+  );
+
+  const equipmentCount = faker.number.int({ min: 1, max: 3 });
+  let equipment = Array.from({ length: equipmentCount }, () =>
+    faker.helpers.arrayElement(ALL_EQUIPMENT)
+  );
+
+  if (equipment.includes("None")) {
+    equipment = ["None"];
+  } else {
+    equipment = [...new Set(equipment)];
+  }
+
+  return {
+    name: `${faker.word.adjective()} ${faker.word.noun()} Workout`,
+    description,
+    startDate: faker.date.future(),
+    duration: faker.number.int({ min: 15, max: 90 }),
+    difficulty: faker.helpers.arrayElement(DIFFICULTIES),
+    category: faker.helpers.arrayElement(CATEGORIES),
+    exercises,
+    equipment,
+    calories: faker.number.int({ min: 100, max: 800 })
+  };
+}
+
+async function checkWorkoutSizes() {
+  // Sample 10 random workouts to check their sizes
+  const sampleWorkouts = await prisma.workout.findMany({
+    take: 10,
+    skip: Math.floor(Math.random() * 900),
+  });
+
+  console.log('\nWorkout Size Report:');
+  console.log('-------------------');
+
+  sampleWorkouts.forEach((workout, index) => {
+    const sizeInBytes = Buffer.byteLength(JSON.stringify(workout), 'utf8');
+    const sizeInKB = sizeInBytes / 1024;
+
+    console.log(
+      `Workout ${index + 1}: "${workout.name}"\n` +
+      `- Size: ${sizeInKB.toFixed(2)}KB\n` +
+      `- Exercises: ${workout.exercises.length}\n` +
+      `- Description: ${workout.description.length.toLocaleString()} chars\n`
+    );
+  });
+
+  const avgSize = sampleWorkouts.reduce((sum, workout) => {
+    return sum + (Buffer.byteLength(JSON.stringify(workout), 'utf8') / 1024);
+  }, 0) / sampleWorkouts.length;
+
+  console.log(`Average workout size: ${avgSize.toFixed(2)}KB`);
+  console.log('-------------------\n');
+}
+
 async function main() {
-  console.log('🌱 Starting database seed...');
+  console.log('Starting database seed...');
 
   await prisma.workout.deleteMany({});
-  console.log('🗑️  Cleared existing workouts');
+  console.log('Cleared existing workouts');
 
-  const workouts = await prisma.workout.createMany({
-    data: workoutData,
-  });
+  const workoutCount = 1000;
+  const workouts = [];
 
-  console.log(`✅ Seeded ${workouts.count} workouts`);
+  console.log(`⏳ Generating ${workoutCount} workouts...`);
+  for (let i = 0; i < workoutCount; i++) {
+    workouts.push(generateWorkout());
+    if (i % 100 === 0) process.stdout.write('.');
+  }
+  console.log('\n');
 
-  const allWorkouts = await prisma.workout.findMany();
-  console.log('📋 Created workouts:');
-  allWorkouts.forEach(workout => {
-    console.log(`   - ${workout.name} (${workout.category})`);
-  });
+  // Batch insert in chunks of 100
+  const batchSize = 100;
+  for (let i = 0; i < workouts.length; i += batchSize) {
+    const batch = workouts.slice(i, i + batchSize);
+    await prisma.workout.createMany({
+      data: batch,
+    });
+    console.log(`Inserted batch ${i / batchSize + 1} of ${Math.ceil(workouts.length / batchSize)}`);
+  }
+
+  console.log(`Successfully seeded ${workoutCount} workouts`);
+
+  await checkWorkoutSizes();
 }
 
 main()
   .catch((e) => {
-    console.error('❌ Seed failed:', e);
+    console.error('Seed failed:', e);
     process.exit(1);
   })
   .finally(async () => {
