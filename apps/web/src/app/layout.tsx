@@ -2,6 +2,7 @@ import { PropsWithChildren } from 'react';
 import type { Metadata } from 'next';
 import { Poppins } from "next/font/google";
 import Header from '../shared/Header';
+import Footer from '../shared/Footer';
 import './globals.css';
 
 const poppins = Poppins({
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
           <main className="flex-grow p-6 mx-auto w-full">
             {children}
           </main>
+          <Footer />
         </div>
       </body>
     </html>
