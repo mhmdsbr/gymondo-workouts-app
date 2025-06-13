@@ -22,7 +22,7 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
       <body className={`${poppins.variable} font-sans antialiased`}>
         <div className="flex flex-col min-h-screen">
           <Header />
-          <main className="flex-grow p-6 mx-auto w-full">
+          <main className="flex-grow p-6 mx-auto w-full max-w-7xl">
             {children}
           </main>
           <Footer />

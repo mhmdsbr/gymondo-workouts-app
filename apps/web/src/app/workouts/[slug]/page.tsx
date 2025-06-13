@@ -1,9 +1,12 @@
+import { fetchWorkoutBySlug } from "../../../services/workoutService";
 import WorkoutDetail from "../../../features/workouts/components/WorkoutDetail";
 
-export default function WorkoutDetailPage({
+export default async function WorkoutDetailPage({
   params,
 }: {
   params: { slug: string };
 }) {
-  return <WorkoutDetail slug={params.slug} />;
+  const workout = await fetchWorkoutBySlug(params.slug);
+
+  return <WorkoutDetail workout={workout} />;
 }

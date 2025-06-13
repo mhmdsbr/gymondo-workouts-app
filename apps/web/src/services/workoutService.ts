@@ -1,5 +1,3 @@
-'use client';
-
 import { Workout, WorkoutsApiResponse } from '../shared/types'
 
 

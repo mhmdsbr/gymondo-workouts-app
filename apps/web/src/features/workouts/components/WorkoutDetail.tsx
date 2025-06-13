@@ -1,41 +1,15 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import Link from 'next/link'
-import { fetchWorkoutBySlug } from '../../../services/workoutService'
-import { Workout, WorkoutDetailProps } from '../../../shared/types'
+import { Workout } from '../../../shared/types'
+
+interface WorkoutDetailProps {
+  workout: Workout;
+}
 
 
-export default function WorkoutDetail({ slug }: WorkoutDetailProps) {
-  const [workout, setWorkout] = useState<Workout | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    const fetchWorkout = async () => {
-      try {
-        const foundWorkout = await fetchWorkoutBySlug(slug);
-        if (!foundWorkout) {
-          throw new Error('Workout not found');
-        }
-        setWorkout(foundWorkout);
-      } catch (err) {
-        console.error('Error loading workout:', err);
-        setError(err instanceof Error ? err.message : 'Failed to load workout');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchWorkout();
-  }, [slug]);
-
-  if (loading) return <div className="p-6 max-w-4xl mx-auto">Loading...</div>
-  if (error)
-    return <div className="p-6 max-w-4xl mx-auto text-red-500">{error}</div>
-  if (!workout)
-    return <div className="p-6 max-w-4xl mx-auto">Workout not found</div>
+export default function WorkoutDetail({ workout }: WorkoutDetailProps) {
 
   return (
     <div className="p-6 max-w-6xl mx-auto">

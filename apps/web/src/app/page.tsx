@@ -1,7 +1,9 @@
 import WorkoutsList from '../features/workouts/components/WorkoutsList';
 
-const RootPage = () => {
-  return <WorkoutsList />;
-};
-
-export default RootPage;
+export default function RootPage() {
+  return (
+    <div className="home-page">
+      <WorkoutsList />
+    </div>
+  );
+}
