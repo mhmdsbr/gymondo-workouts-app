@@ -1,4 +1,4 @@
-import WorkoutDetail from "../../../features/workouts/WorkoutDetail";
+import WorkoutDetail from "../../../features/workouts/components/WorkoutDetail";
 
 export default function WorkoutDetailPage({
   params,

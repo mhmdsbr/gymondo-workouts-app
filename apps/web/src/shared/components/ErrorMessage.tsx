@@ -1,9 +1,9 @@
-export default function ErrorMessage({ 
+export default function ErrorMessage({
   error,
-  onRetry 
-}: { 
-  error: string 
-  onRetry: () => void 
+  onRetry
+}: {
+  error: string
+  onRetry: () => void
 }) {
   return (
     <section className="p-6 max-w-4xl mx-auto">

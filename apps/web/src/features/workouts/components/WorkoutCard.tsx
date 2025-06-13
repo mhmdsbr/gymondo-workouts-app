@@ -2,7 +2,7 @@
 
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
-import type { WorkoutCardProps } from '../types';
+import type { WorkoutCardProps } from '../../../shared/types';
 
 export default function WorkoutCard({ workout }: WorkoutCardProps) {
   const router = useRouter();

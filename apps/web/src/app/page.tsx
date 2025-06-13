@@ -1,4 +1,4 @@
-import WorkoutsList from '../features/workouts/WorkoutsList';
+import WorkoutsList from '../features/workouts/components/WorkoutsList';
 
 const RootPage = () => {
   return <WorkoutsList />;

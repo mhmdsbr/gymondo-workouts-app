@@ -1,6 +1,6 @@
 'use client';
 
-import { Workout, WorkoutsApiResponse } from '../features/types'
+import { Workout, WorkoutsApiResponse } from '../shared/types'
 
 
 const API_BASE_URL = 'http://localhost:3000/api/workouts';

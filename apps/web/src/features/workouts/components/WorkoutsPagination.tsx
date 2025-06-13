@@ -1,6 +1,6 @@
 'use client'
 
-export default function Pagination({
+export default function WorkoutsPagination({
   currentPage,
   totalPages,
   onPageChange

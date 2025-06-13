@@ -3,11 +3,11 @@
 import { useState, useEffect } from 'react';
 import WorkoutCard from './WorkoutCard';
 import WorkoutFilters from './WorkoutFilters';
-import Pagination from '../pagination/Pagination';
-import LoadingSkeleton from '../../shared/LoadingSkeleton';
-import ErrorMessage from '../../shared/ErrorMessage';
-import { fetchWorkouts, fetchWorkoutCategories } from '../../services/workoutService';
-import { Workout } from '../types';
+import Pagination from './WorkoutsPagination';
+import LoadingSkeleton from '../../../shared/components/LoadingSkeleton';
+import ErrorMessage from '../../../shared/components/ErrorMessage';
+import { fetchWorkouts, fetchWorkoutCategories } from '../../../services/workoutService';
+import { Workout } from '../../../shared/types';
 
 export default function WorkoutsList() {
   const [workouts, setWorkouts] = useState<Workout[]>([]);

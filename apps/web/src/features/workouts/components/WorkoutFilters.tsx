@@ -1,7 +1,7 @@
 'use client'
 
 import { useMonthGenerator } from '../hooks'
-import { WorkoutFiltersProps } from '../types';
+import { WorkoutFiltersProps } from '../../../shared/types';
 
 export default function WorkoutFilters({
   selectedMonth,

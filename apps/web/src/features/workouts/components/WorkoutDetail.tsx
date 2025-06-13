@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import Link from 'next/link'
-import { findWorkoutBySlug } from '../../services/workoutService'
-import { Workout, WorkoutDetailProps } from '../types'
+import { findWorkoutBySlug } from '../../../services/workoutService'
+import { Workout, WorkoutDetailProps } from '../../../shared/types'
 
 
 export default function WorkoutDetail({ slug }: WorkoutDetailProps) {
