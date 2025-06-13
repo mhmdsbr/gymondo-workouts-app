@@ -38,7 +38,7 @@ export default function WorkoutDetail({ slug }: WorkoutDetailProps) {
     return <div className="p-6 max-w-4xl mx-auto">Workout not found</div>
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
+    <div className="p-6 max-w-6xl mx-auto">
       <Link
         href="/"
         className="mb-4 inline-flex items-center text-blue-600 hover:text-blue-800"
@@ -67,8 +67,13 @@ export default function WorkoutDetail({ slug }: WorkoutDetailProps) {
             {workout.category}
           </span>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div className='grid grid-col-1 mb-8'>
+          <div>
+            <h2 className="text-lg text-black font-semibold mb-2">Description</h2>
+            <p className="text-gray-700">{workout.description}</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
           <div>
             <h2 className="text-lg text-black font-semibold mb-2">Details</h2>
             <div className="space-y-2 text-gray-700">
@@ -88,13 +93,6 @@ export default function WorkoutDetail({ slug }: WorkoutDetailProps) {
           </div>
 
           <div>
-            <h2 className="text-lg text-black font-semibold mb-2">Description</h2>
-            <p className="text-gray-700">{workout.description}</p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
             <h2 className="text-lg text-black font-semibold mb-2">Exercises</h2>
             <ul className="list-disc text-gray-700 pl-5 space-y-1">
               {workout.exercises.map((exercise, index) => (
@@ -102,7 +100,6 @@ export default function WorkoutDetail({ slug }: WorkoutDetailProps) {
               ))}
             </ul>
           </div>
-
           <div>
             <h2 className="text-lg text-black font-semibold mb-2">Required Equipment</h2>
             <ul className="list-disc text-gray-700 pl-5 space-y-1">
