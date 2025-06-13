@@ -84,8 +84,8 @@ export default function WorkoutsList() {
   };
 
   // Calculate pagination info for display
-  const startIndex = (currentPage - 1) * 10 + 1;
-  const endIndex = Math.min(currentPage * 10, totalItems);
+  const startIndex = (currentPage - 1) * 20 + 1;
+  const endIndex = Math.min(currentPage * 20, totalItems);
 
   if (loading && workouts.length === 0) return <LoadingSkeleton />;
   if (error) return <ErrorMessage error={error} onRetry={handleRetry} />;

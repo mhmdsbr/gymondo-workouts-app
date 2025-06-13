@@ -1,9 +1,10 @@
 import { useMemo } from 'react'
 import dayjs from 'dayjs'
+import { Month } from '../../../shared/types';
 
-export function useMonthGenerator(monthsCount: number = 12) {
-  const months = useMemo(() => {
-    const monthsList = []
+export function useMonthGenerator(monthsCount: number = 12): Month[] {
+  const months = useMemo((): Month[] => {
+    const monthsList: Month[] = []
     const today = dayjs()
 
     for (let i = 0; i < monthsCount; i++) {

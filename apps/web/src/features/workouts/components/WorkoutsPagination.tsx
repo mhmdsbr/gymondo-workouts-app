@@ -1,14 +1,12 @@
 'use client'
 
+import { PaginationProps } from '../../../shared/types';
+
 export default function WorkoutsPagination({
   currentPage,
   totalPages,
   onPageChange
-}: {
-  currentPage: number
-  totalPages: number
-  onPageChange: (page: number) => void
-}) {
+}: PaginationProps) {
   const handlePrev = () => {
     if (currentPage > 1) {
       onPageChange(currentPage - 1)

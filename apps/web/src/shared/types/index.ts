@@ -41,6 +41,12 @@ export interface WorkoutCardProps {
   workout: Workout;
 }
 
+export interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+}
+
 export interface Month {
   value: string;
   label: string;
