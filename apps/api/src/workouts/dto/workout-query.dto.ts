@@ -13,10 +13,6 @@ export class WorkoutQueryDto {
 
   @IsOptional()
   @IsString()
-  difficulty?: string;
-
-  @IsOptional()
-  @IsString()
   month?: string;
 
   @IsOptional()

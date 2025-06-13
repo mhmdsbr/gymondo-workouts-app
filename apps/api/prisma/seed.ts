@@ -28,8 +28,27 @@ function capitalize(str: string): string {
   return str[0].toUpperCase() + str.slice(1);
 }
 
-function generateWorkout() {
+function generateUniqueSlug(name: string, existingSlugs: Set<string>): string {
+  let baseSlug = name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
 
+  let slug = baseSlug;
+  let counter = 1;
+
+  while (existingSlugs.has(slug)) {
+    slug = `${baseSlug}-${counter}`;
+    counter++;
+  }
+
+  return slug;
+}
+
+function generateWorkout(existingSlugs: Set<string>) {
+
+  const name = `${capitalize(faker.word.adjective())} ${capitalize(faker.word.noun())} Workout`;
+  const slug = generateUniqueSlug(name, existingSlugs);
   const description = faker.lorem.paragraphs(3);
 
   const exerciseCount = faker.number.int({ min: 5, max: 8 });
@@ -49,7 +68,8 @@ function generateWorkout() {
   }
 
   return {
-    name: `${capitalize(faker.word.adjective())} ${capitalize(faker.word.noun())} Workout`,
+    name,
+    slug,
     description,
     startDate: faker.date.future(),
     duration: faker.number.int({ min: 15, max: 90 }),
@@ -99,10 +119,13 @@ async function main() {
 
   const workoutCount = 1000;
   const workouts = [];
+  const existingSlugs = new Set<string>();
 
   console.log(`⏳ Generating ${workoutCount} workouts...`);
   for (let i = 0; i < workoutCount; i++) {
-    workouts.push(generateWorkout());
+    const workout = generateWorkout(existingSlugs);
+    existingSlugs.add(workout.slug);
+    workouts.push(workout);
     if (i % 100 === 0) process.stdout.write('.');
   }
   console.log('\n');

@@ -21,13 +21,9 @@ export default function WorkoutCard({ workout }: WorkoutCardProps) {
     }
   };
 
-  const handleClick = () => {
-    const slug = workout.name
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-|-$)/g, '');
-    router.push(`/workouts/${slug}`);
-  };
+const handleClick = () => {
+  router.push(`/workouts/${workout.slug}`);
+};
 
   return (
     <div

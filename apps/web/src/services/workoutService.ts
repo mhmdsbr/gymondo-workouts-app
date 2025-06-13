@@ -39,13 +39,8 @@ export const fetchWorkoutCategories = async (): Promise<string[]> => {
   return response.json();
 };
 
-export const findWorkoutBySlug = async (slug: string): Promise<Workout | undefined> => {
-  const workouts = await fetchAllWorkouts();
-  return workouts.find((w) => {
-    const workoutSlug = w.name
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-|-$)/g, '');
-    return workoutSlug === slug;
-  });
+export const fetchWorkoutBySlug = async (slug: string): Promise<Workout> => {
+  const response = await fetch(`${API_BASE_URL}/${slug}`);
+  if (!response.ok) throw new Error('Failed to load workout');
+  return response.json();
 };

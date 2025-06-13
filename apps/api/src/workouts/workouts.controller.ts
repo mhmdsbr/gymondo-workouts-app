@@ -2,6 +2,7 @@ import {
   Controller,
   Get,
   Query,
+  Param,
 } from '@nestjs/common';
 import { WorkoutsService } from './workouts.service';
 import { WorkoutQueryDto } from './dto/workout-query.dto';
@@ -20,4 +21,8 @@ export class WorkoutsController {
     return this.workoutsService.getCategories();
   }
 
+  @Get(':slug')
+  findOne(@Param('slug') slug: string) {
+    return this.workoutsService.findOneBySlug(slug);
+  }
 }

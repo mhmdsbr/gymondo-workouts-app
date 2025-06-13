@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import Link from 'next/link'
-import { findWorkoutBySlug } from '../../../services/workoutService'
+import { fetchWorkoutBySlug } from '../../../services/workoutService'
 import { Workout, WorkoutDetailProps } from '../../../shared/types'
 
 
@@ -15,21 +15,21 @@ export default function WorkoutDetail({ slug }: WorkoutDetailProps) {
   useEffect(() => {
     const fetchWorkout = async () => {
       try {
-        const foundWorkout = await findWorkoutBySlug(slug);
+        const foundWorkout = await fetchWorkoutBySlug(slug);
         if (!foundWorkout) {
-          throw new Error('Workout not found')
+          throw new Error('Workout not found');
         }
-        setWorkout(foundWorkout)
+        setWorkout(foundWorkout);
       } catch (err) {
-        console.error('Error loading workout:', err)
-        setError(err instanceof Error ? err.message : 'Failed to load workout')
+        console.error('Error loading workout:', err);
+        setError(err instanceof Error ? err.message : 'Failed to load workout');
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchWorkout()
-  }, [slug])
+    fetchWorkout();
+  }, [slug]);
 
   if (loading) return <div className="p-6 max-w-4xl mx-auto">Loading...</div>
   if (error)

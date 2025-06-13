@@ -1,6 +1,7 @@
 export interface Workout {
   id: number;
   name: string;
+  slug: string;
   description: string;
   startDate: Date;
   duration: number;

@@ -73,4 +73,10 @@ export class WorkoutsService {
     return categories.map(item => item.category);
   }
 
+  async findOneBySlug(slug: string) {
+    return this.prisma.workout.findUnique({
+      where: { slug },
+    });
+  }
+
 }

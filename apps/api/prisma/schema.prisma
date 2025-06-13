@@ -13,6 +13,7 @@ datasource db {
 model Workout {
   id          Int      @id @default(autoincrement())
   name        String
+  slug        String   @unique
   description String
   startDate   DateTime @map("start_date")
   duration    Int      // in minutes
