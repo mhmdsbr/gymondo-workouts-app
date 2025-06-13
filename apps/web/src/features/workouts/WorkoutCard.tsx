@@ -35,29 +35,27 @@ export default function WorkoutCard({ workout }: WorkoutCardProps) {
       className="p-6 border border-gray-200 rounded-xl shadow-sm bg-white hover:scale-[1.02] hover:shadow-md transition-all cursor-pointer"
     >
       <div className="flex justify-between items-start mb-3">
-        <div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-1">
-            {workout.name}
-          </h3>
-          <div className="flex items-center gap-2 mb-2">
-            <span
-              className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyBadgeColor(workout.difficulty)}`}
-            >
-              {workout.difficulty}
-            </span>
-            <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
-              {workout.category}
-            </span>
-          </div>
-        </div>
-        <div className="text-right text-sm text-gray-600">
-          <div>{workout.duration} min</div>
-          <div>{workout.calories} cal</div>
-        </div>
+        <h3 className="text-xl font-semibold text-gray-900 mb-1">
+          {workout.name}
+        </h3>
       </div>
-
-      <p className="text-gray-700 mb-4">{workout.description}</p>
-
+      <div className="flex items-center gap-2 mb-2">
+        <span
+          className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyBadgeColor(workout.difficulty)}`}
+        >
+          {workout.difficulty}
+        </span>
+        <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
+          {workout.category}
+        </span>
+      </div>
+      <p className="text-sm text-gray-500">
+        Start Date: {dayjs(workout.startDate).format('MMMM D, YYYY')}
+      </p>
+      <div className="flex flex-col text-left my-2 text-sm text-gray-600">
+        <div><span>Duration:</span> {workout.duration} min</div>
+        <div><span>Calories:</span> {workout.calories} cal</div>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div>
           <h4 className="font-medium text-gray-900 mb-1">Exercises:</h4>
@@ -72,10 +70,7 @@ export default function WorkoutCard({ workout }: WorkoutCardProps) {
           </p>
         </div>
       </div>
-
-      <p className="text-sm text-gray-500">
-        Start Date: {dayjs(workout.startDate).format('MMMM D, YYYY')}
-      </p>
+      <p className="text-gray-700 mb-4">{workout.description}</p>
     </div>
   );
 }

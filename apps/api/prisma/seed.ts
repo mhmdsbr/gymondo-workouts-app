@@ -24,6 +24,10 @@ const ALL_EQUIPMENT = [
   "Barbell", "Kettlebells", "Resistance Bands"
 ];
 
+function capitalize(str: string): string {
+  return str[0].toUpperCase() + str.slice(1);
+}
+
 function generateWorkout() {
 
   const description = faker.lorem.paragraphs(3);
@@ -45,7 +49,7 @@ function generateWorkout() {
   }
 
   return {
-    name: `${faker.word.adjective()} ${faker.word.noun()} Workout`,
+    name: `${capitalize(faker.word.adjective())} ${capitalize(faker.word.noun())} Workout`,
     description,
     startDate: faker.date.future(),
     duration: faker.number.int({ min: 15, max: 90 }),
