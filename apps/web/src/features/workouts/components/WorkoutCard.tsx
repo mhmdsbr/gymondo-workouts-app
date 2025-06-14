@@ -4,9 +4,27 @@ import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import type { WorkoutCardProps } from '../../../shared/types';
 
+/**
+ * WorkoutCard - Interactive card component displaying workout summary
+ *
+ * This is a client component that renders a clickable workout card with:
+ * - Workout metadata (name, difficulty, category, dates)
+ * - Performance metrics (duration, calories)
+ * - Exercise and equipment lists
+ * - Navigation to detailed workout view
+ *
+ * @param workout - Complete workout data object
+ */
 export default function WorkoutCard({ workout }: WorkoutCardProps) {
+  // Next.js router for programmatic navigation
   const router = useRouter();
 
+  /**
+   * Maps difficulty levels to color-coded badges for visual hierarchy
+   *
+   * @param difficulty - Workout difficulty level (case-insensitive)
+   * @returns Tailwind CSS classes for background and text colors
+   */
   const getDifficultyBadgeColor = (difficulty: string) => {
     const normalizedDifficulty = difficulty.toLowerCase();
     switch (normalizedDifficulty) {
@@ -21,9 +39,13 @@ export default function WorkoutCard({ workout }: WorkoutCardProps) {
     }
   };
 
-const handleClick = () => {
-  router.push(`/workouts/${workout.slug}`);
-};
+  /**
+   * Handles card click navigation to workout detail page
+   * Uses the workout slug to construct the detail page URL
+   */
+  const handleClick = () => {
+    router.push(`/workouts/${workout.slug}`);
+  };
 
   return (
     <div

@@ -2,14 +2,20 @@
 
 import dayjs from 'dayjs'
 import Link from 'next/link'
-import { Workout } from '../../../shared/types'
+import { WorkoutCardProps } from '../../../shared/types'
 
-interface WorkoutDetailProps {
-  workout: Workout;
-}
-
-
-export default function WorkoutDetail({ workout }: WorkoutDetailProps) {
+/**
+ *
+ * This component renders a detailed view of a single workout including:
+ * - Full workout metadata and description
+ * - Difficulty and category badges
+ * - Workout metrics (duration, calories, start date)
+ * - Complete exercise and equipment lists
+ * - Navigation back to workout list
+ *
+ * @param workout - Complete workout data object passed from server component
+ */
+export default function WorkoutDetail({ workout }: WorkoutCardProps) {
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
@@ -24,7 +30,6 @@ export default function WorkoutDetail({ workout }: WorkoutDetailProps) {
         <h1 className="text-2xl font-bold text-gray-900 mb-2">
           {workout.name}
         </h1>
-
         <div className="flex items-center gap-4 mb-4">
           <span
             className={`px-3 py-1 rounded-full text-sm font-medium ${
@@ -65,7 +70,6 @@ export default function WorkoutDetail({ workout }: WorkoutDetailProps) {
               </p>
             </div>
           </div>
-
           <div>
             <h2 className="text-lg text-black font-semibold mb-2">Exercises</h2>
             <ul className="list-disc text-gray-700 pl-5 space-y-1">

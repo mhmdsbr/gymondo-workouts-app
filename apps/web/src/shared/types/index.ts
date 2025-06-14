@@ -26,10 +26,6 @@ export interface WorkoutsApiResponse {
   pagination: PaginationInfo;
 }
 
-export interface WorkoutDetailProps {
-  slug: string;
-}
-
 export interface WorkoutFiltersProps {
   selectedMonth: string;
   setSelectedMonth: (month: string) => void;

@@ -3,6 +3,23 @@
 import { useMonthGenerator } from '../hooks'
 import { WorkoutFiltersProps } from '../../../shared/types';
 
+/**
+ *
+ * This client component provides filtering capabilities including:
+ * - Month-based filtering with dropdown selection
+ * - Multi-select category filtering with toggle buttons
+ * - Active filter display and management
+ * - Clear all filters functionality
+ *
+ * State is managed by parent component and passed down as props along
+ * with handler functions for state updates.
+ *
+ * @param selectedMonth - Currently selected month filter value
+ * @param setSelectedMonth - Function to update month filter
+ * @param selectedCategories - Array of currently selected category filters
+ * @param allCategories - Complete list of available categories
+ * @param handleCategoryChange - Function to toggle category selection
+ */
 export default function WorkoutFilters({
   selectedMonth,
   setSelectedMonth,
@@ -57,15 +74,18 @@ export default function WorkoutFilters({
         </div>
       </div>
 
+      {/* Active filters summary and clear action - Only shows when filters are applied */}
       {(selectedCategories.length > 0 || selectedMonth) && (
         <div className="mt-4 pt-4 border-t border-gray-200">
           <div className="flex items-center justify-between">
+            {/* Dynamic filter summary text */}
             <div className="text-sm text-gray-600">
               Active filters: {[
                 selectedMonth && `Month: ${months.find(m => m.value === selectedMonth)?.label}`,
                 selectedCategories.length > 0 && `Categories: ${selectedCategories.join(', ')}`
               ].filter(Boolean).join(' • ')}
             </div>
+            {/* Clear all filters button */}
             <button
               onClick={() => {
                 setSelectedMonth('');
