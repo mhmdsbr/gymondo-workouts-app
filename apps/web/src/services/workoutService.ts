@@ -1,7 +1,6 @@
 import { Workout, WorkoutsApiResponse } from '../shared/types'
 
-
-const API_BASE_URL = 'http://localhost:3000/api/workouts';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000/api/workouts';
 
 export const fetchWorkouts = async (
   page: number = 1,
@@ -19,22 +18,15 @@ export const fetchWorkouts = async (
     categories.forEach(category => params.append('categories', category));
   }
 
-  const response = await fetch(`${API_BASE_URL}?${params.toString()}`);
-  if (!response.ok) throw new Error('Failed to load workouts');
-  return response.json();
-};
-
-export const fetchAllWorkouts = async (): Promise<Workout[]> => {
-  const response = await fetch(`${API_BASE_URL}?limit=1000`);
-  if (!response.ok) throw new Error('Failed to load workouts');
-  const data = await response.json();
-  return data.workouts;
+  const res = await fetch(`${API_BASE_URL}?${params.toString()}`, { cache: 'no-store' });
+  if (!res.ok) throw new Error('Failed to fetch workouts');
+  return res.json();
 };
 
 export const fetchWorkoutCategories = async (): Promise<string[]> => {
-  const response = await fetch(`${API_BASE_URL}/categories`);
-  if (!response.ok) throw new Error('Failed to load categories');
-  return response.json();
+  const res = await fetch(`${API_BASE_URL}/categories`, { cache: 'no-store' });
+  if (!res.ok) throw new Error('Failed to fetch categories');
+  return res.json();
 };
 
 export const fetchWorkoutBySlug = async (slug: string): Promise<Workout> => {

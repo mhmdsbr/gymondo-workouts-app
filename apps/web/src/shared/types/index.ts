@@ -42,6 +42,12 @@ export interface WorkoutCardProps {
   workout: Workout;
 }
 
+export interface WorkoutsListProps {
+  initialData: WorkoutsApiResponse;
+  initialPage: number;
+  categories: string[];
+}
+
 export interface PaginationProps {
   currentPage: number;
   totalPages: number;

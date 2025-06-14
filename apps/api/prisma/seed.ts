@@ -49,14 +49,14 @@ function generateWorkout(existingSlugs: Set<string>) {
 
   const name = `${capitalize(faker.word.adjective())} ${capitalize(faker.word.noun())} Workout`;
   const slug = generateUniqueSlug(name, existingSlugs);
-  const description = faker.lorem.paragraphs(3);
+  const description = faker.lorem.paragraphs(1);
 
-  const exerciseCount = faker.number.int({ min: 5, max: 8 });
+  const exerciseCount = faker.number.int({ min: 3, max: 5 });
   const exercises = Array.from({ length: exerciseCount }, () =>
     faker.helpers.arrayElement(ALL_EXERCISES)
   );
 
-  const equipmentCount = faker.number.int({ min: 1, max: 3 });
+  const equipmentCount = faker.number.int({ min: 2, max: 6 });
   let equipment = Array.from({ length: equipmentCount }, () =>
     faker.helpers.arrayElement(ALL_EQUIPMENT)
   );
