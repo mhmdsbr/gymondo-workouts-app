@@ -6,7 +6,7 @@ export default function ErrorMessage({
   onRetry: () => void
 }) {
   return (
-    <section className="p-6 max-w-4xl mx-auto">
+    <section className="p-6 max-w-4xl mx-auto" data-testid="error-message">
       <div className="text-center py-12">
         <p className="text-red-600 mb-4">{error}</p>
         <button

@@ -49,6 +49,7 @@ export default function WorkoutCard({ workout }: WorkoutCardProps) {
 
   return (
     <div
+      data-testid="workout-card"
       onClick={handleClick}
       className="p-6 border border-gray-200 rounded-xl shadow-sm bg-white hover:scale-[1.02] hover:shadow-md transition-all cursor-pointer"
     >

@@ -86,11 +86,12 @@ export default function WorkoutsPagination({
   };
 
   return (
-    <div className="flex flex-col items-center space-y-4 mt-8">
+    <div className="flex flex-col items-center space-y-4 mt-8" data-testid="pagination-container">
       <div className="flex flex-col sm:flex-row gap-4 sm:gap-0 items-center space-x-2">
         <button
           onClick={handlePrev}
           disabled={currentPage === 1}
+          data-testid="prev-button"
           className={`
             flex w-[50px] items-center justify-center cursor-pointer px-4 py-2 text-sm font-medium rounded-lg border transition-all duration-200
             ${currentPage === 1
@@ -120,6 +121,7 @@ export default function WorkoutsPagination({
             return (
               <button
                 key={page}
+                data-testid={`page-button-${page}`}
                 onClick={() => {
                   onPageChange(Number(page))
                   window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -141,6 +143,7 @@ export default function WorkoutsPagination({
         <button
           onClick={handleNext}
           disabled={currentPage === totalPages}
+          data-testid="next-button"
           className={`
             flex w-[50px] items-center justify-center cursor-pointer px-4 py-2 text-sm font-medium rounded-lg border transition-all duration-200
             ${currentPage === totalPages
@@ -154,7 +157,7 @@ export default function WorkoutsPagination({
           </svg>
         </button>
       </div>
-      <div className="text-sm text-gray-600 font-medium">
+      <div className="text-sm text-gray-600 font-medium" data-testid="page-info">
         Page {currentPage} of {totalPages}
       </div>
     </div>

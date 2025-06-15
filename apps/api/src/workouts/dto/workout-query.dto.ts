@@ -1,5 +1,5 @@
-import { IsOptional, IsString, IsArray } from 'class-validator';
-import { Transform } from 'class-transformer';
+import { IsOptional, IsString, IsArray, IsInt, Min, Max } from 'class-validator';
+import { Transform, Type } from 'class-transformer';
 
 export class WorkoutQueryDto {
   @IsOptional()
@@ -8,18 +8,25 @@ export class WorkoutQueryDto {
 
   @IsOptional()
   @IsArray()
+  @IsString({ each: true })
   @Transform(({ value }) => Array.isArray(value) ? value : [value])
   categories?: string[];
 
   @IsOptional()
   @IsString()
+  @Transform(({ value }) => value?.toString())
   month?: string;
 
   @IsOptional()
-  @Transform(({ value }) => parseInt(value))
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
   page?: number = 1;
 
   @IsOptional()
-  @Transform(({ value }) => parseInt(value))
-  limit?: number = 10;
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(50)
+  limit?: number = 20;
 }

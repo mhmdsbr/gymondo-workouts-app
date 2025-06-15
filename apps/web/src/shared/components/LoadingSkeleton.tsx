@@ -1,6 +1,6 @@
 export default function LoadingSkeleton() {
   return (
-    <section className="p-6 max-w-4xl mx-auto">
+    <section className="p-6 max-w-4xl mx-auto" data-testid="loading-skeleton">
       <div className="animate-pulse">
         <div className="h-8 bg-gray-200 rounded w-1/4 mb-6"></div>
         {[...Array(5)].map((_, i) => (
