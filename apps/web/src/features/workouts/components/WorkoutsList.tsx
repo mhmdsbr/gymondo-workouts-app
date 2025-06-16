@@ -1,7 +1,7 @@
 'use client';
 
 import useSWR from 'swr';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import WorkoutCard from './WorkoutCard';
 import WorkoutFilters from './WorkoutFilters';
 import Pagination from './WorkoutsPagination';
@@ -11,6 +11,7 @@ import { fetchWorkouts } from '../../../services/workoutService';
 import { WorkoutsListProps, WorkoutsApiResponse } from '../../../shared/types';
 
 const PAGE_LIMIT = 20;
+const DEBOUNCE_DELAY = 300;
 
 /**
  *
@@ -24,10 +25,7 @@ const PAGE_LIMIT = 20;
  *
  * Uses a hybrid approach: displays server-side initial data for performance,
  * then switches to client-side SWR fetching when filters are applied.
- *
- * @param initialData - Pre-fetched workout data from server component
- * @param initialPage - Starting page number from server
- * @param categories - Available workout categories for filtering
+ * Shows a spinner for filter state transitions, and LoadingSkeleton for initial load
  */
 export default function WorkoutsList({
   initialData,
@@ -39,27 +37,65 @@ export default function WorkoutsList({
   const [selectedMonth, setSelectedMonth] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
+  // Debounced states
+  const [debouncedMonth, setDebouncedMonth] = useState(selectedMonth);
+  const [debouncedCategories, setDebouncedCategories] = useState<string[]>([]);
+  const [isClientLoaded, setIsClientLoaded] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  // Debounce month input changes
+  useEffect(() => {
+    setIsTransitioning(true);
+    const handler = setTimeout(() => {
+      setDebouncedMonth(selectedMonth);
+      setIsTransitioning(false);
+    }, DEBOUNCE_DELAY);
+    return () => clearTimeout(handler);
+  }, [selectedMonth]);
+
+  // Debounce category selection changes
+  useEffect(() => {
+    setIsTransitioning(true);
+    const handler = setTimeout(() => {
+      setDebouncedCategories(selectedCategories);
+      setIsTransitioning(false);
+    }, DEBOUNCE_DELAY);
+    return () => clearTimeout(handler);
+  }, [selectedCategories]);
+
+  // Trigger initial client load detection
+  useEffect(() => {
+    setIsClientLoaded(true);
+  }, []);
+
   // Optimization: detect if we're in initial state to avoid unnecessary API calls
   // Uses server-provided data when no filters are applied
-  const isInitialState = currentPage === 1 && !selectedMonth && selectedCategories.length === 0;
+  const isInitialState =
+    currentPage === 1 && !debouncedMonth && debouncedCategories.length === 0;
 
   // SWR query key - changes when any filter parameter changes
   // This triggers automatic revalidation when filters are modified
   const queryKey = [
     'workouts',
     currentPage,
-    selectedMonth,
-    selectedCategories.join(','), // Convert array to string for key stability
+    debouncedMonth || 'all-months',
+    debouncedCategories.length > 0
+      ? debouncedCategories.join(',')
+      : 'all-categories',
   ];
 
   // SWR data fetching with conditional execution
   // Only fetches when not in initial state (has filters applied)
-  const { data, error, isLoading, mutate } = useSWR<WorkoutsApiResponse>(
+  const { data, error, mutate } = useSWR<WorkoutsApiResponse>(
     isInitialState ? null : queryKey, // null key disables SWR when in initial state
-    () => fetchWorkouts(currentPage, PAGE_LIMIT, selectedMonth, selectedCategories),
-    {
-      keepPreviousData: true, // Prevents UI flicker during transitions
-    }
+    () =>
+      fetchWorkouts(
+        currentPage,
+        PAGE_LIMIT,
+        debouncedMonth,
+        debouncedCategories,
+      ),
+    { keepPreviousData: true }, // Prevents UI flicker during transitions
   );
 
   // Data source selection: use initial server data or SWR fetched data
@@ -72,10 +108,10 @@ export default function WorkoutsList({
    * @param category - Category name to toggle
    */
   const handleCategoryChange = (category: string) => {
-    setSelectedCategories(prev =>
+    setSelectedCategories((prev) =>
       prev.includes(category)
-        ? prev.filter(c => c !== category)  // Remove if already selected
-        : [...prev, category]               // Add if not selected
+        ? prev.filter((c) => c !== category)
+        : [...prev, category],
     );
     setCurrentPage(1); // Reset to first page when filter changes
   };
@@ -108,11 +144,14 @@ export default function WorkoutsList({
     mutate();
   };
 
-  // Main Loading state
-  if (!isInitialState && isLoading && !data?.workouts.length) return <LoadingSkeleton />;
+  // Main Loading state while initial server data is being shown
+  if (!isClientLoaded) return <LoadingSkeleton />;
 
   // Main Error state
-  if (!isInitialState && error) return <ErrorMessage error="Failed to load workouts" onRetry={handleRetry} />;
+  if (!isInitialState && error)
+    return (
+      <ErrorMessage error="Failed to load workouts" onRetry={handleRetry} />
+    );
 
   // Data extraction with safe fallbacks
   const workouts = workoutsData?.workouts ?? [];
@@ -124,7 +163,7 @@ export default function WorkoutsList({
   const endIndex = Math.min(currentPage * PAGE_LIMIT, totalItems);
 
   return (
-    <section className="p-6 container mx-auto">
+    <section className="p-6 container mx-auto" data-testid="workouts-loaded">
       <WorkoutFilters
         selectedMonth={selectedMonth}
         setSelectedMonth={handleMonthChange}
@@ -137,7 +176,9 @@ export default function WorkoutsList({
         <h2 className="text-2xl font-bold text-gray-900">Workout Programs</h2>
         <div className="text-sm text-gray-600">
           {totalItems > 0 ? (
-            <>Showing {startIndex}-{endIndex} of {totalItems} workouts</>
+            <>
+              Showing {startIndex}-{endIndex} of {totalItems} workouts
+            </>
           ) : (
             'No workouts found'
           )}
@@ -145,8 +186,7 @@ export default function WorkoutsList({
       </div>
 
       <div className="mb-8">
-        {!isInitialState && isLoading ? (
-          // Loading spinner for filtered data fetching
+        {isTransitioning ? (
           <div className="text-center py-4">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
           </div>
