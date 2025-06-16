@@ -1,4 +1,4 @@
-# With-NestJs | Web
+# Web
 
 ## Getting Started
 
@@ -11,10 +11,6 @@ pnpm run dev
 ```
 
 Open [localhost:3001](http://localhost:3001) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-To create [API routes](https://nextjs.org/docs/app/building-your-application/routing/router-handlers) add an `api/` directory to the `app/` directory with a `route.ts` file. For individual endpoints, create a subfolder in the `api` directory, as `api/hello/route.ts` would map to [http://localhost:3000/api/hello](http://localhost:3000/api/hello).
 
 ### ⚠️ Note about build
 

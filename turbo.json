@@ -18,6 +18,11 @@
         "dist/**"
       ]
     },
+     "start": {
+      "dependsOn": [
+        "^build"
+      ]
+    },
     "lint": {},
     "test": {},
     "test:e2e": {},
