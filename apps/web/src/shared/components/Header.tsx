@@ -20,7 +20,7 @@ export default function Header() {
               src="/gymondoLogo.png"
               alt="Site Logo"
               fill
-              sizes="100vw"
+              sizes="50px"
               style={{ objectFit: 'contain' }}
               priority
             />

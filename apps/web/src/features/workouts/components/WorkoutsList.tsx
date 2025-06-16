@@ -45,6 +45,7 @@ export default function WorkoutsList({
 
   // Debounce month input changes
   useEffect(() => {
+    if (!isClientLoaded && selectedMonth === '') return;
     setIsTransitioning(true);
     const handler = setTimeout(() => {
       setDebouncedMonth(selectedMonth);
@@ -55,6 +56,7 @@ export default function WorkoutsList({
 
   // Debounce category selection changes
   useEffect(() => {
+    if (!isClientLoaded && selectedCategories.length === 0) return;
     setIsTransitioning(true);
     const handler = setTimeout(() => {
       setDebouncedCategories(selectedCategories);
@@ -172,7 +174,7 @@ export default function WorkoutsList({
         handleCategoryChange={handleCategoryChange}
       />
 
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col gap-3 md:flex-row md:gap-0 justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-900">Workout Programs</h2>
         <div className="text-sm text-gray-600">
           {totalItems > 0 ? (
