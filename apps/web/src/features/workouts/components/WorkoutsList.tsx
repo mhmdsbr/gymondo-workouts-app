@@ -7,6 +7,7 @@ import WorkoutFilters from './WorkoutFilters';
 import Pagination from './WorkoutsPagination';
 import LoadingSkeleton from '../../../shared/components/LoadingSkeleton';
 import ErrorMessage from '../../../shared/components/ErrorMessage';
+import { Spinner } from '../../../shared/components/Spinner';
 import { fetchWorkouts } from '../../../services/workoutService';
 import { WorkoutsListProps, WorkoutsApiResponse } from '../../../shared/types';
 
@@ -189,9 +190,7 @@ export default function WorkoutsList({
 
       <div className="mb-8">
         {isTransitioning ? (
-          <div className="text-center py-4">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-          </div>
+          <Spinner />
         ) : workouts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {workouts.map((workout) => (

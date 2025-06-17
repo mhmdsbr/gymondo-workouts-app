@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import { WorkoutCardProps } from '../../../shared/types'
-import { getDifficultyColors, formatWorkoutDate } from '../utils'
+import { formatWorkoutDate } from '../utils'
+import { Badge } from '../../../shared/components/Badge'
 
 /**
  *
@@ -31,14 +32,8 @@ export default function WorkoutDetail({ workout }: WorkoutCardProps) {
           {workout.name}
         </h1>
         <div className="flex items-center gap-4 mb-4">
-          <span
-            className={`px-3 py-1 rounded-full text-sm font-medium ${getDifficultyColors(workout.difficulty)}`}
-          >
-            {workout.difficulty}
-          </span>
-          <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
-            {workout.category}
-          </span>
+          <Badge variant="difficulty" difficulty={workout.difficulty}>{workout.difficulty}</Badge>
+          <Badge variant="category" difficulty={workout.difficulty}>{workout.category}</Badge>
         </div>
         <div className='grid grid-col-1 mb-8'>
           <div>

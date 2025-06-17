@@ -56,3 +56,15 @@ export interface Month {
   value: string;
   label: string;
 }
+
+export interface BadgeProps {
+  children: React.ReactNode;
+  variant: 'difficulty' | 'category' | 'default';
+  difficulty?: string;
+  size?: 'sm' | 'md';
+}
+
+export interface SpinnerProps {
+  size?: 'sm' | 'md' | 'lg';
+  className?: string;
+}

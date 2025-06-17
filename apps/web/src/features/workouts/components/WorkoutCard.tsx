@@ -2,7 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import type { WorkoutCardProps } from '../../../shared/types';
-import { getDifficultyColors, formatWorkoutDate } from '../utils';
+import { formatWorkoutDate } from '../utils';
+import { Badge } from '../../../shared/components/Badge';
 
 /**
  * WorkoutCard - Interactive card component displaying workout summary
@@ -39,14 +40,8 @@ export default function WorkoutCard({ workout }: WorkoutCardProps) {
         </h3>
       </div>
       <div className="flex items-center gap-2 mb-2">
-        <span
-          className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColors(workout.difficulty)}`}
-        >
-          {workout.difficulty}
-        </span>
-        <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
-          {workout.category}
-        </span>
+        <Badge variant="difficulty" size='sm' difficulty={workout.difficulty}>{workout.difficulty}</Badge>
+        <Badge variant="category" size='sm' difficulty={workout.difficulty}>{workout.category}</Badge>
       </div>
       <p className="text-sm text-gray-500">
         Start Date: {formatWorkoutDate(workout.startDate)}
