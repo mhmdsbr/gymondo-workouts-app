@@ -1,9 +1,8 @@
 'use client';
 
-import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import type { WorkoutCardProps } from '../../../shared/types';
-import { getDifficultyColors } from '../utils';
+import { getDifficultyColors, formatWorkoutDate } from '../utils';
 
 /**
  * WorkoutCard - Interactive card component displaying workout summary
@@ -50,7 +49,7 @@ export default function WorkoutCard({ workout }: WorkoutCardProps) {
         </span>
       </div>
       <p className="text-sm text-gray-500">
-        Start Date: {dayjs(workout.startDate).format('MMMM D, YYYY')}
+        Start Date: {formatWorkoutDate(workout.startDate)}
       </p>
       <div className="flex flex-col text-left my-2 text-sm text-gray-600">
         <div><span>Duration:</span> {workout.duration} min</div>

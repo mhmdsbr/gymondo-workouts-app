@@ -1,9 +1,8 @@
 'use client'
 
-import dayjs from 'dayjs'
 import Link from 'next/link'
 import { WorkoutCardProps } from '../../../shared/types'
-import { getDifficultyColors } from '../utils'
+import { getDifficultyColors, formatWorkoutDate } from '../utils'
 
 /**
  *
@@ -53,7 +52,7 @@ export default function WorkoutDetail({ workout }: WorkoutCardProps) {
             <div className="space-y-2 text-gray-700">
               <p>
                 <span className="font-medium">Start Date:</span>{' '}
-                {dayjs(workout.startDate).format('MMMM D, YYYY')}
+                {formatWorkoutDate(workout.startDate)}
               </p>
               <p>
                 <span className="font-medium">Duration:</span>{' '}
