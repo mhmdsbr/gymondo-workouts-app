@@ -11,10 +11,11 @@ jest.mock('../src/services/workoutService', () => ({
 }));
 
 jest.mock('../src/features/workouts/components/WorkoutsList', () => {
-  return jest.fn(({ initialData, initialPage, categories }) => (
+  return jest.fn(({ initialData, initialPage, pageLimit, categories }) => (
     <div data-testid="workouts-list">
       <div data-testid="initial-data">{JSON.stringify(initialData)}</div>
       <div data-testid="initial-page">{initialPage}</div>
+      <div data-testid="page-limit">{pageLimit}</div>
       <div data-testid="categories">{JSON.stringify(categories)}</div>
     </div>
   ));
@@ -36,7 +37,7 @@ describe('RootPage', () => {
     description: `Description ${id}`,
     startDate: new Date(),
     duration: 30,
-    difficulty: 'Intermediate',
+    difficulty: 'intermediate',
     category: 'Strength',
     exercises: ['Exercise 1', 'Exercise 2'],
     equipment: ['Dumbbells', 'Mat'],
@@ -105,6 +106,7 @@ describe('RootPage', () => {
     expect(MockedWorkoutsList).toHaveBeenCalledWith({
       initialData: mockWorkoutsData,
       initialPage: 1,
+      pageLimit: 20,
       categories: mockCategories
     }, {});
   });
@@ -125,6 +127,7 @@ describe('RootPage', () => {
     expect(MockedWorkoutsList).toHaveBeenCalledWith({
       initialData: emptyWorkoutsData,
       initialPage: 1,
+      pageLimit: 20,
       categories: emptyCategories
     }, {});
     expect(screen.getByTestId('workouts-list')).toBeInTheDocument();

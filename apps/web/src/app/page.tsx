@@ -14,13 +14,14 @@ export default async function RootPage() {
     fetchWorkouts(initialPage, initialLimit),
     fetchWorkoutCategories(),
   ]);
-
+22
   // Render the home page with pre-fetched data
   return (
     <div className="home-page">
       <WorkoutsList
         initialData={initialData}
         initialPage={initialPage}
+        pageLimit={initialLimit}
         categories={categories}
       />
     </div>

@@ -1,2 +1,5 @@
 export { usePagination } from './usePagination'
 export { useMonthGenerator } from './useMonthGenerator'
+export { useDebouncedFilters } from './useDebouncedFilters'
+export { useWorkoutDisplayRange } from './useWorkoutDisplayRange'
+export { useWorkoutsQuery } from './useWorkoutsQuery'

@@ -43,6 +43,7 @@ export interface WorkoutCardProps {
 export interface WorkoutsListProps {
   initialData: WorkoutsApiResponse;
   initialPage: number;
+  pageLimit: number;
   categories: string[];
 }
 
