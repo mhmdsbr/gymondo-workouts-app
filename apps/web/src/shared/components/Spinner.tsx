@@ -1,10 +1,10 @@
 import { SpinnerProps } from "../types";
 
-export const Spinner = ({ size = 'md', className = '' }: SpinnerProps) => {
+export const Spinner = ({ size = 'lg', className = '' }: SpinnerProps) => {
   const sizeClasses = {
-    sm: 'h-4 w-4',
-    md: 'h-8 w-8',
-    lg: 'h-12 w-12'
+    sm: 'h-3 w-3',
+    md: 'h-7 w-7',
+    lg: 'h-10 w-10'
   };
 
   return (

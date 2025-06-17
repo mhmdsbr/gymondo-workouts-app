@@ -177,7 +177,8 @@ export default function WorkoutsList({
 
       <div className="flex flex-col gap-3 md:flex-row md:gap-0 justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-900">Workout Programs</h2>
-        <div className="text-sm text-gray-600">
+        <div className="flex justify-center items-center gap-3 text-sm text-gray-600">
+          {isTransitioning ? <Spinner size="sm" /> : null}
           {totalItems > 0 ? (
             <>
               Showing {startIndex}-{endIndex} of {totalItems} workouts
@@ -188,28 +189,34 @@ export default function WorkoutsList({
         </div>
       </div>
 
-      <div className="mb-8">
-        {isTransitioning ? (
-          <Spinner />
-        ) : workouts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {workouts.map((workout) => (
-              <WorkoutCard key={workout.id} workout={workout} />
-            ))}
+      {isTransitioning ? (
+        <div className="flex justify-center py-12">
+          <Spinner size='lg' />
+        </div>
+      ) : (
+        <>
+          <div className="mb-8">
+            {workouts.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {workouts.map((workout) => (
+                  <WorkoutCard key={workout.id} workout={workout} />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8 text-gray-500">
+                No workouts match your selected filters
+              </div>
+            )}
           </div>
-        ) : (
-          <div className="text-center py-8 text-gray-500">
-            No workouts match your selected filters
-          </div>
-        )}
-      </div>
 
-      {totalPages > 1 && (
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
+          {totalPages > 1 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          )}
+        </>
       )}
     </section>
   );
