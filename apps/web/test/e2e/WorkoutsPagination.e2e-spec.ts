@@ -71,6 +71,8 @@ test.describe('Pagination', () => {
 
   test('should disable next button on last page', async ({ page }) => {
 
+    await page.waitForSelector('[data-testid="pagination-container"]');
+
     await expect(page.getByTestId('pagination-container')).toBeVisible();
 
     const pageInfo = await page.getByTestId('page-info').textContent();
