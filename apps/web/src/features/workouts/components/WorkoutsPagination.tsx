@@ -1,6 +1,7 @@
 'use client'
 
 import { PaginationProps } from '../../../shared/types';
+import { usePagination } from '../hooks';
 
 /**
  *
@@ -13,6 +14,9 @@ export default function WorkoutsPagination({
   totalPages,
   onPageChange
 }: PaginationProps) {
+
+  const pages = usePagination(currentPage, totalPages);
+
 
   /**
    * Handle previous page navigation
@@ -33,57 +37,6 @@ export default function WorkoutsPagination({
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }
   }
-
-  /**
-   * Generate array of page numbers with ellipsis logic
-   * Shows up to 5 visible pages with ellipsis placement
-   * Always shows first and last page when applicable
-   */
-  const getPageNumbers = () => {
-    const pages = [];
-    const maxVisiblePages = 3;
-    const halfVisiblePages = Math.floor(maxVisiblePages / 2);
-
-    // Always show first page
-    pages.push(1);
-
-    // Add ellipsis if there's a gap after page 1
-    if (currentPage - halfVisiblePages > 2) {
-      pages.push('...');
-    }
-
-    // Calculate start and end range for visible pages
-    let startPage = Math.max(2, currentPage - halfVisiblePages);
-    let endPage = Math.min(totalPages - 1, currentPage + halfVisiblePages);
-
-    // Adjust range for pages near the beginning
-    if (currentPage <= halfVisiblePages + 1) {
-      endPage = maxVisiblePages;
-    }
-    // Adjust range for pages near the end
-    else if (currentPage >= totalPages - halfVisiblePages) {
-      startPage = totalPages - maxVisiblePages + 1;
-    }
-
-    // Add middle pages
-    for (let i = startPage; i <= endPage; i++) {
-      if (i > 1 && i < totalPages) {
-        pages.push(i);
-      }
-    }
-
-    // Add ellipsis if there's a gap before last page
-    if (currentPage + halfVisiblePages < totalPages - 1) {
-      pages.push('...');
-    }
-
-    // Always show last page (if more than 1 page total)
-    if (totalPages > 1) {
-      pages.push(totalPages);
-    }
-
-    return pages;
-  };
 
   return (
     <div className="flex flex-col items-center space-y-4 mt-8" data-testid="pagination-container">
@@ -106,7 +59,7 @@ export default function WorkoutsPagination({
         </button>
 
         <div className="flex space-x-1">
-          {getPageNumbers().map((page, index) => {
+          {pages.map((page, index) => {
             if (page === '...') {
               return (
                 <span
