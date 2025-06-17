@@ -1,3 +1,5 @@
+export type Difficulty = 'beginner' | 'intermediate' | 'advanced';
+
 export interface Workout {
   id: number;
   name: string;
@@ -5,7 +7,7 @@ export interface Workout {
   description: string;
   startDate: Date;
   duration: number;
-  difficulty: string;
+  difficulty: Difficulty;
   category: string;
   exercises: string[];
   equipment: string[];

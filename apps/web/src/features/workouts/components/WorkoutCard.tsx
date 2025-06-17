@@ -3,6 +3,7 @@
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import type { WorkoutCardProps } from '../../../shared/types';
+import { getDifficultyColors } from '../utils';
 
 /**
  * WorkoutCard - Interactive card component displaying workout summary
@@ -18,26 +19,6 @@ import type { WorkoutCardProps } from '../../../shared/types';
 export default function WorkoutCard({ workout }: WorkoutCardProps) {
   // Next.js router for programmatic navigation
   const router = useRouter();
-
-  /**
-   * Maps difficulty levels to color-coded badges for visual hierarchy
-   *
-   * @param difficulty - Workout difficulty level (case-insensitive)
-   * @returns Tailwind CSS classes for background and text colors
-   */
-  const getDifficultyBadgeColor = (difficulty: string) => {
-    const normalizedDifficulty = difficulty.toLowerCase();
-    switch (normalizedDifficulty) {
-      case 'beginner':
-        return 'bg-green-100 text-green-800';
-      case 'intermediate':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'advanced':
-        return 'bg-red-100 text-red-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
 
   /**
    * Handles card click navigation to workout detail page
@@ -60,7 +41,7 @@ export default function WorkoutCard({ workout }: WorkoutCardProps) {
       </div>
       <div className="flex items-center gap-2 mb-2">
         <span
-          className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyBadgeColor(workout.difficulty)}`}
+          className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColors(workout.difficulty)}`}
         >
           {workout.difficulty}
         </span>

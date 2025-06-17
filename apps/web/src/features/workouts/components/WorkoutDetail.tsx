@@ -3,6 +3,7 @@
 import dayjs from 'dayjs'
 import Link from 'next/link'
 import { WorkoutCardProps } from '../../../shared/types'
+import { getDifficultyColors } from '../utils'
 
 /**
  *
@@ -32,13 +33,7 @@ export default function WorkoutDetail({ workout }: WorkoutCardProps) {
         </h1>
         <div className="flex items-center gap-4 mb-4">
           <span
-            className={`px-3 py-1 rounded-full text-sm font-medium ${
-              workout.difficulty.toLowerCase() === 'beginner'
-                ? 'bg-green-100 text-green-800'
-                : workout.difficulty.toLowerCase() === 'intermediate'
-                  ? 'bg-yellow-100 text-yellow-800'
-                  : 'bg-red-100 text-red-800'
-            }`}
+            className={`px-3 py-1 rounded-full text-sm font-medium ${getDifficultyColors(workout.difficulty)}`}
           >
             {workout.difficulty}
           </span>
